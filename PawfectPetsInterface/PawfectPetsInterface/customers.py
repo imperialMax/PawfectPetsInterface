@@ -1,3 +1,4 @@
+import pandas as pd
 import pyodbc
 from argon2 import PasswordHasher
 ph = PasswordHasher()
@@ -9,7 +10,7 @@ connection_string = (
     r"Column Encryption Setting=Enabled;"
     
 )
-
+pd.set_option('display.expand_frame_repr', False)
 class Customers:
     def __init__(self, first_name=None, last_name=None, email=None, address=None, phone_number=None):
         self.first_name = first_name
@@ -17,6 +18,7 @@ class Customers:
         self.email = email
         self.address = address
         self.phone_number = phone_number
+
 
 def InsertCustomers():
 
@@ -51,15 +53,57 @@ def SelectCustomers():
                    + "\n" + "1. Entire table" + "\n" + "2. One row" + "\n")
     match uInput:
         case "1":
-            select_Query = ''' 
-                SELECT * FROM customers
-            '''
-            cursor.execute(select_Query)
-            result = cursor.fetchall()
-            resultList = [result]
             print("Here are the results of your search:" + "\n")
-            print(resultList)
-            print("\n")
+            conn = pyodbc.connect(connection_string)
+            cursor = conn.cursor()
+
+            select_Query =    """SELECT customer_ID FROM customers"""            
+
+            cursor.execute(select_Query)
+            customer_ID = cursor.fetchall()
+
+
+            select_Query =    """SELECT first_name FROM customers"""            
+
+            cursor.execute(select_Query)
+            first_name = cursor.fetchall()
+
+            select_Query =    """SELECT last_name FROM customers"""            
+
+            cursor.execute(select_Query)
+            last_name = cursor.fetchall()
+
+            select_Query =    """SELECT email FROM customers"""            
+
+            cursor.execute(select_Query)
+            email = cursor.fetchall()
+
+            select_Query =    """SELECT address FROM customers"""            
+
+            cursor.execute(select_Query)
+            address = cursor.fetchall()
+
+            select_Query =    """SELECT phone_number FROM customers"""            
+
+            cursor.execute(select_Query)
+            phone_number = cursor.fetchall()
+
+
+            data = {
+                "product_ID": customer_ID,
+                "first_name": first_name,
+                "last_name": last_name,
+                "email": email,
+                "address": address,
+                "phone_number": phone_number
+        
+                }
+
+            df = pd.DataFrame(data)
+            print(df)
+
+            cursor.close()
+            conn.close()
         case "2":
             uInput = input("Which row would you like to view?" + "\n" + "Select an option by entering the corresponding number:"
                    + "\n" + "1. first_name" 
@@ -70,60 +114,106 @@ def SelectCustomers():
                    + "\n")
             match uInput:
                 case "1":
-                    select_Query = ''' 
-                        SELECT first_name FROM customers
-                    '''
+                    conn = pyodbc.connect(connection_string)
+                    cursor = conn.cursor()
+
+                    select_Query =    """SELECT first_name FROM customers"""            
+
                     cursor.execute(select_Query)
-                    result = cursor.fetchall()
-                    resultList = [result]
-                    print("Here are the results of your search:" + "\n")
-                    print(resultList)
-                    print("\n")
+                    first_name = cursor.fetchall()
+
+
+                    data = {
+                        "first_name": first_name,
+
+                        }
+
+                    df = pd.DataFrame(data)
+                    print(df)
+
+                    cursor.close()
+                    conn.close()
                 case "2":
-                    select_Query = ''' 
-                        SELECT last_name FROM customers
-                    '''
+                    conn = pyodbc.connect(connection_string)
+                    cursor = conn.cursor()
+
+                    select_Query =    """SELECT last_name FROM customers"""            
+
                     cursor.execute(select_Query)
-                    result = cursor.fetchall()
-                    resultList = [result]
-                    print("Here are the results of your search:" + "\n")
-                    print(resultList)
-                    print("\n")
+                    last_name = cursor.fetchall()
+
+
+                    data = {
+                        "last_name": last_name,
+
+                        }
+
+                    df = pd.DataFrame(data)
+                    print(df)
+
+                    cursor.close()
+                    conn.close()
                 case "3":
-                    select_Query = ''' 
-                        SELECT email FROM customers
-                    '''
+                    conn = pyodbc.connect(connection_string)
+                    cursor = conn.cursor()
+
+                    select_Query =    """SELECT email FROM customers"""            
+
                     cursor.execute(select_Query)
-                    result = cursor.fetchall()
-                    resultList = [result]
-                    print("Here are the results of your search:" + "\n")
-                    print(resultList)
-                    print("\n")
+                    email = cursor.fetchall()
+
+
+                    data = {
+                        "email": email,
+
+                        }
+
+                    df = pd.DataFrame(data)
+                    print(df)
+
+                    cursor.close()
+                    conn.close()
                 case "4":
-                    select_Query = ''' 
-                        SELECT address FROM customers
-                    '''
+                    conn = pyodbc.connect(connection_string)
+                    cursor = conn.cursor()
+
+                    select_Query =    """SELECT address FROM customers"""            
+
                     cursor.execute(select_Query)
-                    result = cursor.fetchall()
-                    resultList = [result]
-                    print("Here are the results of your search:" + "\n")
-                    print(resultList)
-                    print("\n")
+                    address = cursor.fetchall()
+
+
+                    data = {
+                        "address": address,
+
+                        }
+
+                    df = pd.DataFrame(data)
+                    print(df)
+
+                    cursor.close()
+                    conn.close()
                 case "5":
-                    select_Query = ''' 
-                        SELECT phone_number FROM customers
-                    '''
+                    conn = pyodbc.connect(connection_string)
+                    cursor = conn.cursor()
+
+                    select_Query =    """SELECT phone_number FROM customers"""            
+
                     cursor.execute(select_Query)
-                    result = cursor.fetchall()
-                    resultList = [result]
-                    print("Here are the results of your search:" + "\n")
-                    print(resultList)
-                    print("\n")
+                    phone_number = cursor.fetchall()
 
 
+                    data = {
+                        "phone_number": phone_number,
 
-    cursor.close()
-    conn.close()
+                        }
+
+                    df = pd.DataFrame(data)
+                    print(df)
+
+                    cursor.close()
+                    conn.close()
+
 
 def UpdateCustomers():
     
@@ -132,31 +222,144 @@ def UpdateCustomers():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
 
-    select_Query = ''' 
-        SELECT * FROM customers   
-    '''
+    select_Query =    """SELECT customer_ID FROM customers"""            
+
     cursor.execute(select_Query)
-    result = cursor.fetchall()
+    customer_ID = cursor.fetchall()
+
+
+    select_Query =    """SELECT first_name FROM customers"""            
+
+    cursor.execute(select_Query)
+    first_name = cursor.fetchall()
+
+    select_Query =    """SELECT last_name FROM customers"""            
+
+    cursor.execute(select_Query)
+    last_name = cursor.fetchall()
+
+    select_Query =    """SELECT email FROM customers"""            
+
+    cursor.execute(select_Query)
+    email = cursor.fetchall()
+
+    select_Query =    """SELECT address FROM customers"""            
+
+    cursor.execute(select_Query)
+    address = cursor.fetchall()
+
+    select_Query =    """SELECT phone_number FROM customers"""            
+
+    cursor.execute(select_Query)
+    phone_number = cursor.fetchall()
+
+
+    data = {
+        "customer_ID": customer_ID,
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "address": address,
+        "phone_number": phone_number,
+        
+        }
+
+    df = pd.DataFrame(data)
 
     print("Here is the contents of the table:" + "\n")
-    print(result)
+    print(df)
+    customer_ID = input("What is the ID number of the customer you would like to edit?"
+          + "\n" + "Select an option by entering the number appearing at the front of the row"
+          + "\n")
+    customer_row = input("What is the ROW number of the customer you would like to edit?"
+          + "\n" + "Select an option by entering the number appearing at the front of the row"
+          + "\n")
+
     uInput = input("\n" + "What would you like to update?" + "\n" + "Select an option by entering the corresponding number:" 
           + "\n" + "1. first_name"
           + "\n" + "2. last_name" 
           + "\n" + "3. email"
-          + "\n" + "address"
-          + "\n" + "phone_number" + "\n")
+          + "\n" + "4. address"
+          + "\n" + "5. phone_number" + "\n")
 
-    customer_ID = input("What is the ID of the customer that you want to edit?"
-          + "\n" + "Select an option by entering the number appearing at the front of the customers list:"
-          + "\n")
     match uInput:
         case "1":
-            updatedValue = input("The first_name is currently " + customers.first_name + "." 
+            customer_row = int(customer_row)
+            current_first_name = str(df.loc[customer_row,"first_name"])
+            updatedValue = input("The first_name is currently " + current_first_name
                                  + "\n" + "What should the updated value be?" 
                                  + "\n")
+            customer_row = str(customer_row)
             update_Query = """
-                UPDATE customers SET first_name WHERE customer_ID VALUES (?,?) 
+                UPDATE customers SET first_name=? WHERE customer_ID=?
+            """
+
+            data = (updatedValue,customer_ID)
+
+            cursor.execute(update_Query,data)
+            conn.commit()
+            cursor.close()
+            conn.close()
+        case "2":
+            customer_row = int(customer_row)
+            current_last_name = str(df.loc[customer_row,"last_name"])
+            updatedValue = input("The last_name is currently " + current_last_name
+                                 + "\n" + "What should the updated value be?" 
+                                 + "\n")
+            customer_row = str(customer_row)
+            update_Query = """
+                UPDATE customers SET last_name=? WHERE customer_ID=?
+            """
+
+            data = (updatedValue,customer_ID)
+
+            cursor.execute(update_Query,data)
+            conn.commit()
+            cursor.close()
+            conn.close()
+        case "3":
+            customer_row = int(customer_row)
+            current_email = str(df.loc[customer_row,"email"])
+            updatedValue = input("The email is currently " + current_email
+                                 + "\n" + "What should the updated value be?" 
+                                 + "\n")
+            customer_row = str(customer_row)
+            update_Query = """
+                UPDATE customers SET email=? WHERE customer_ID=?
+            """
+
+            data = (updatedValue,customer_ID)
+
+            cursor.execute(update_Query,data)
+            conn.commit()
+            cursor.close()
+            conn.close()
+        case "4":
+            customer_row = int(customer_row)
+            current_address = str(df.loc[customer_row,"address"])
+            updatedValue = input("The addesss is currently " + current_address
+                                 + "\n" + "What should the updated value be?" 
+                                 + "\n")
+            customer_row = str(customer_row)
+            update_Query = """
+                UPDATE customers SET address=? WHERE customer_ID=?
+            """
+
+            data = (updatedValue,customer_ID)
+
+            cursor.execute(update_Query,data)
+            conn.commit()
+            cursor.close()
+            conn.close()
+        case "5":
+            customer_row = int(customer_row)
+            current_phone_number = str(df.loc[customer_row,"phone_number"])
+            updatedValue = input("The phone_number is currently " + current_phone_number
+                                 + "\n" + "What should the updated value be?" 
+                                 + "\n")
+            customer_row = str(customer_row)
+            update_Query = """
+                UPDATE customers SET phone_number=? WHERE customer_ID=?
             """
 
             data = (updatedValue,customer_ID)
@@ -170,15 +373,53 @@ def DeleteCustomers():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
 
-    select_Query = ''' 
-        SELECT * FROM customers   
-    '''
+    select_Query =    """SELECT customer_ID FROM customers"""            
+
     cursor.execute(select_Query)
-    result = cursor.fetchall()
-    resultList = [result]
+    customer_ID = cursor.fetchall()
+
+
+    select_Query =    """SELECT first_name FROM customers"""            
+
+    cursor.execute(select_Query)
+    first_name = cursor.fetchall()
+
+    select_Query =    """SELECT last_name FROM customers"""            
+
+    cursor.execute(select_Query)
+    last_name = cursor.fetchall()
+
+    select_Query =    """SELECT email FROM customers"""            
+
+    cursor.execute(select_Query)
+    email = cursor.fetchall()
+
+    select_Query =    """SELECT address FROM customers"""            
+
+    cursor.execute(select_Query)
+    address = cursor.fetchall()
+
+    select_Query =    """SELECT phone_number FROM customers"""            
+
+    cursor.execute(select_Query)
+    phone_number = cursor.fetchall()
+
+
+
+    data = {
+        "customer_ID": customer_ID,
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "address": address,
+        "phone_number": phone_number
+        
+        }
+
+    df = pd.DataFrame(data)
 
     print("Here is the contents of the table:" + "\n")
-    print(resultList)
+    print(df)
 
     uInput = input("\n" + "What would you like to delete?" + "\n" + "Select an option by entering the corresponding number:" 
           + "\n" + "1. All records"
@@ -195,11 +436,11 @@ def DeleteCustomers():
             cursor.close()
             conn.close()
         case "2":
-            user_ID           = input("What is the ID of the customer that you want to delete?"
+            user_ID     = input("What is the ID of the customer that you want to delete?"
               + "\n" + "Select an option by entering the number appearing at the front of the suppliers list:"
               + "\n")
             delete_Query = """
-                    DELETE FROM customers WHERE user_ID=?
+                    DELETE FROM customers WHERE customer_ID=?
                 """
 
             data = (user_ID)

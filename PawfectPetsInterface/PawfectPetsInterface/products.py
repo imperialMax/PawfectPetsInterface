@@ -1,3 +1,4 @@
+import pandas as pd
 import pyodbc
 from argon2 import PasswordHasher
 ph = PasswordHasher()
@@ -9,7 +10,7 @@ connection_string = (
     r"Column Encryption Setting=Enabled;"
     
 )
-
+pd.set_option('display.expand_frame_repr', False)
 class Products:
     def __init__(self, supplier_ID=None, product_name=None, product_cost=None):
         self.supplier_ID = supplier_ID
@@ -29,8 +30,7 @@ def InsertProducts():
     
     insertQuery = """ INSERT INTO products (supplier_ID, product_name, product_cost) VALUES (?, ?, ?) """ 
     
-    data = (supplierInput, 
-            productInput, costInput)
+    data = (supplierInput, productInput, costInput)
 
     cursor.execute(insertQuery,data)
     conn.commit()
@@ -44,83 +44,171 @@ def SelectProducts():
                    + "\n" + "1. Entire table" + "\n" + "2. One row" + "\n")
     match uInput:
         case "1":
-            select_Query = ''' 
-                SELECT * FROM products
-            '''
-            cursor.execute(select_Query)
-            result = cursor.fetchall()
-            resultList = [result]
             print("Here are the results of your search:" + "\n")
-            print(resultList)
-            print("\n")
+            conn = pyodbc.connect(connection_string)
+            cursor = conn.cursor()
+
+            select_Query =    """SELECT product_ID FROM products"""            
+
+            cursor.execute(select_Query)
+            product_ID = cursor.fetchall()
+
+
+            select_Query =    """SELECT supplier_ID FROM products"""            
+
+            cursor.execute(select_Query)
+            supplier_ID = cursor.fetchall()
+
+            select_Query =    """SELECT product_name FROM products"""            
+
+            cursor.execute(select_Query)
+            product_name = cursor.fetchall()
+
+            select_Query =    """SELECT product_cost FROM products"""            
+
+            cursor.execute(select_Query)
+            product_cost = cursor.fetchall()
+
+
+            data = {
+                "product_ID": product_ID,
+                "supplier_ID": supplier_ID,
+                "product_name": product_name,
+                "product_cost": product_cost
+        
+                }
+
+            df = pd.DataFrame(data)
+            print(df)
+
+            cursor.close()
+            conn.close()
         case "2":
             uInput = input("Which row would you like to view?" + "\n" + "Select an option by entering the corresponding number:"
                    + "\n" + "1. supplier_ID" 
                    + "\n" + "2. product_name" 
-                   + "\n" + "3. product_cost")
+                   + "\n" + "3. product_cost" + "\n")
             match uInput:
                 case "1":
-                    select_Query = ''' 
-                        SELECT supplier_ID FROM products
-                    '''
-                    cursor.execute(select_Query)
-                    result = cursor.fetchall()
-                    resultList = [result]
-                    print("Here are the results of your search:" + "\n")
-                    print(resultList)
-                    print("\n")
-                case "2":
-                    select_Query = ''' 
-                        SELECT product_name FROM products
-                    '''
-                    cursor.execute(select_Query)
-                    result = cursor.fetchall()
-                    resultList = [result]
-                    print("Here are the results of your search:" + "\n")
-                    print(resultList)
-                    print("\n")
-                case "3":
-                    select_Query = ''' 
-                        SELECT product_cost FROM products
-                    '''
-                    cursor.execute(select_Query)
-                    result = cursor.fetchall()
-                    resultList = [result]
-                    print("Here are the results of your search:" + "\n")
-                    print(resultList)
-                    print("\n")
+                    conn = pyodbc.connect(connection_string)
+                    cursor = conn.cursor()
 
-    cursor.close()
-    conn.close()
+                    select_Query =    """SELECT supplier_ID FROM products"""            
+
+                    cursor.execute(select_Query)
+                    supplier_ID = cursor.fetchall()
+
+
+                    data = {
+                        "supplier_ID": supplier_ID,
+
+                        }
+
+                    df = pd.DataFrame(data)
+                    print(df)
+
+                    cursor.close()
+                    conn.close()
+                case "2":
+                    conn = pyodbc.connect(connection_string)
+                    cursor = conn.cursor()
+
+                    select_Query =    """SELECT product_name FROM products"""            
+
+                    cursor.execute(select_Query)
+                    product_name = cursor.fetchall()
+
+
+                    data = {
+                        "product_name": product_name,
+
+                        }
+
+                    df = pd.DataFrame(data)
+                    print(df)
+
+                    cursor.close()
+                    conn.close()
+                case "3":
+                    conn = pyodbc.connect(connection_string)
+                    cursor = conn.cursor()
+
+                    select_Query =    """SELECT product_cost FROM products"""            
+
+                    cursor.execute(select_Query)
+                    product_cost = cursor.fetchall()
+
+
+                    data = {
+                        "product_cost": product_cost,
+
+                        }
+
+                    df = pd.DataFrame(data)
+                    print(df)
+
+                    cursor.close()
+                    conn.close()
+
 
 def UpdateProducts():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
 
-    select_Query = ''' 
-        SELECT * FROM products    
-    '''
+    select_Query =    """SELECT product_ID FROM products"""            
+
     cursor.execute(select_Query)
-    result = cursor.fetchall()
-    resultList = [result]
+    product_ID = cursor.fetchall()
+
+
+    select_Query =    """SELECT supplier_ID FROM products"""            
+
+    cursor.execute(select_Query)
+    supplier_ID = cursor.fetchall()
+
+    select_Query =    """SELECT product_name FROM products"""            
+
+    cursor.execute(select_Query)
+    product_name = cursor.fetchall()
+
+    select_Query =    """SELECT product_cost FROM products"""            
+
+    cursor.execute(select_Query)
+    product_cost = cursor.fetchall()
+
+
+    data = {
+        "product_ID": product_ID,
+        "supplier_ID": supplier_ID,
+        "product_name": product_name,
+        "product_cost": product_cost
+        
+        }
+
+    df = pd.DataFrame(data)
 
     print("Here is the contents of the table:" + "\n")
-    print(resultList)
-
+    print(df)
+    product_ID = input("What is the ID number of the product you would like to edit?"
+          + "\n" + "Select an option by entering the number appearing at the front of the row"
+          + "\n")
+    product_row = input("What is the ROW number of the product you would like to edit?"
+          + "\n" + "Select an option by entering the number appearing at the front of the row"
+          + "\n")
     uInput = input("\n" + "What would you like to update?" + "\n" + "Select an option by entering the corresponding number:" 
           + "\n" + "1. supplier_ID"
           + "\n" + "2. product_name" 
-          + "\n" + "3. product_cost")
-    product_ID = input("What is the ID of the product that you want to edit?"
-          + "\n" + "Select an option by entering the number appearing at the front of the supplier's list:"
-          + "\n")
+          + "\n" + "3. product_cost" + "\n")
     match uInput:
         case "1":
-            updatedValue = input("The supplier_ID is currently " + products.supplier_ID + "." 
+            product_row = int(product_row)
+            current_supplier_ID = str(df.loc[product_row,"supplier_ID"])
+            updatedValue = input("The supplier_name is currently " + current_supplier_ID
                                  + "\n" + "What should the updated value be?" 
                                  + "\n")
+            product_row = str(product_row)
             update_Query = """
-                UPDATE products SET supplier_ID WHERE product_ID VALUES (?,?) 
+                UPDATE products SET supplier_ID=? WHERE product_ID=?
             """
 
             data = (updatedValue,product_ID)
@@ -130,11 +218,14 @@ def UpdateProducts():
             cursor.close()
             conn.close()
         case "2":
-            updatedValue = input("The product_name is currently " + products.product_name + "." 
+            product_row = int(product_row)
+            current_product_name = str(df.loc[product_row,"product_name"])
+            updatedValue = input("The product_name is currently " + current_product_name
                                  + "\n" + "What should the updated value be?" 
                                  + "\n")
+            product_row = str(product_row)
             update_Query = """
-                UPDATE products SET product_name WHERE product_ID VALUES (?,?) 
+                UPDATE products SET product_name=? WHERE product_ID=?
             """
 
             data = (updatedValue,product_ID)
@@ -142,13 +233,16 @@ def UpdateProducts():
             cursor.execute(update_Query,data)
             conn.commit()
             cursor.close()
-            conn.close()
+            conn.close()        
         case "3":
-            updatedValue = input("The product_cost is currently " + products.product_cost + "." 
+            product_row = int(product_row)
+            current_product_cost = str(df.loc[product_row,"product_cost"])
+            updatedValue = input("The product_name is currently " + current_product_cost
                                  + "\n" + "What should the updated value be?" 
                                  + "\n")
+            product_row = str(product_row)
             update_Query = """
-                UPDATE products SET product_cost WHERE product_ID VALUES (?,?) 
+                UPDATE products SET product_cost=? WHERE product_ID=?
             """
 
             data = (updatedValue,product_ID)
@@ -156,21 +250,46 @@ def UpdateProducts():
             cursor.execute(update_Query,data)
             conn.commit()
             cursor.close()
-            conn.close()
+            conn.close()        
 
 def DeleteProducts():
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
 
-    select_Query = ''' 
-        SELECT * FROM products     
-    '''
+    select_Query =    """SELECT product_ID FROM products"""            
+
     cursor.execute(select_Query)
-    result = cursor.fetchall()
-    resultList = [result]
+    product_ID = cursor.fetchall()
+
+
+    select_Query =    """SELECT supplier_ID FROM products"""            
+
+    cursor.execute(select_Query)
+    supplier_ID = cursor.fetchall()
+
+    select_Query =    """SELECT product_name FROM products"""            
+
+    cursor.execute(select_Query)
+    product_name = cursor.fetchall()
+
+    select_Query =    """SELECT product_cost FROM products"""            
+
+    cursor.execute(select_Query)
+    product_cost = cursor.fetchall()
+
+
+    data = {
+        "product_ID": product_ID,
+        "supplier_ID": supplier_ID,
+        "product_name": product_name,
+        "product_cost": product_cost
+        
+        }
+
+    df = pd.DataFrame(data)
 
     print("Here is the contents of the table:" + "\n")
-    print(resultList)
+    print(df)
 
     uInput = input("\n" + "What would you like to delete?" + "\n" + "Select an option by entering the corresponding number:" 
           + "\n" + "1. All records"

@@ -10,7 +10,7 @@ connection_string = (
     r"Column Encryption Setting=Enabled;"
     
 )
-
+pd.set_option('display.expand_frame_repr', False)
 class Suppliers:
     def __init__(self, supplier_name=None, supplier_email=None):
         self.supplier_name = supplier_name
@@ -153,7 +153,10 @@ def UpdateSuppliers():
 
     print("Here is the contents of the table:" + "\n")
     print(df)
-    supplier_ID = input("What is the ROW number of the supplier you would like to edit?"
+    supplier_ID = input("What is the ID number of the supplier you would like to edit?"
+          + "\n" + "Select an option by entering the number appearing at the front of the row"
+          + "\n")
+    supplier_row = input("What is the ROW number of the supplier you would like to edit?"
           + "\n" + "Select an option by entering the number appearing at the front of the row"
           + "\n")
     uInput = input("\n" + "What would you like to update?" + "\n" + "Select an option by entering the corresponding number:" 
@@ -161,14 +164,14 @@ def UpdateSuppliers():
           + "\n" + "2. supplier_email" + "\n")
     match uInput:
         case "1":
-            supplier_ID = int(supplier_ID)
-            current_name = str(df.loc[supplier_ID,"supplier_name"])
+            supplier_row = int(supplier_row)
+            current_name = str(df.loc[supplier_row,"supplier_name"])
             updatedValue = input("The supplier_name is currently " + current_name
                                  + "\n" + "What should the updated value be?" 
                                  + "\n")
-            supplier_ID = str(supplier_ID)
+            supplier_row = str(supplier_row)
             update_Query = """
-                UPDATE suppliers SET supplier_name WHERE supplier_ID VALUES (?,?) 
+                UPDATE suppliers SET supplier_name=? WHERE supplier_ID=?
             """
 
             data = (updatedValue,supplier_ID)
@@ -178,14 +181,14 @@ def UpdateSuppliers():
             cursor.close()
             conn.close()
         case "2":
-            supplier_ID = int(supplier_ID)
-            current_email = str(df.loc[supplier_ID,"supplier_email"])
+            supplier_row = int(supplier_row)
+            current_email = str(df.loc[supplier_row,"supplier_email"])
             updatedValue = input("The supplier_email is currently " + current_email
                                  + "\n" + "What should the updated value be?" 
                                  + "\n")
-            supplier_ID = str(supplier_ID)
+            supplier_row = str(supplier_row)
             update_Query = """
-                UPDATE suppliers SET supplier_email WHERE supplier_ID VALUES (?,?) 
+                UPDATE suppliers SET supplier_email=? WHERE supplier_ID=?
             """
 
             data = (updatedValue,supplier_ID)
@@ -237,7 +240,6 @@ def DeleteSuppliers():
             delete_Query = """
                 DELETE FROM suppliers
             """
-
             
             cursor.execute(delete_Query)
             conn.commit()
@@ -245,7 +247,7 @@ def DeleteSuppliers():
             conn.close()
         case "2":
             supplier_ID = input("What is the ID of the supplier that you want to delete?"
-              + "\n" + "Select an option by entering the ROW number of the supplier:"
+              + "\n" + "Select an option by entering the ID of the supplier:" #### i wanted row number but had to settle for id
               + "\n")
             delete_Query = """
                     DELETE FROM suppliers WHERE supplier_ID=?

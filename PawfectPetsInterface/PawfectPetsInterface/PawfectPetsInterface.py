@@ -1,8 +1,9 @@
 import pyodbc
+import pandas as pd
 import suppliers as supp
 import customers as cust
 import products as prod
-import testingPandas as pd
+import testingPandas as tpd
 from argon2 import PasswordHasher
 ph = PasswordHasher()
 connection_string = (
@@ -23,7 +24,7 @@ connection_string = (
 #     r"Column Encryption Setting=Enabled;"
     
 # )
-
+pd.set_option('display.expand_frame_repr', False)
 global verifieduser 
 
 verifieduser = False
@@ -31,15 +32,15 @@ verifieduser = False
 
 def editSuppliers():
     supplierTransaction = input("Suppliers:" + "\n" +
-                          "1. Select" + "\n" +
-                          "2. Insert" + "\n" +
+                          "1. Insert" + "\n" +
+                          "2. Select" + "\n" +
                           "3. Update" + "\n" +
                           "4. Delete" + "\n")
     match supplierTransaction:
         case "1":
-            supp.SelectSuppliers()
-        case "2":
             supp.InsertSuppliers()
+        case "2":
+            supp.SelectSuppliers()
         case "3":
             supp.UpdateSuppliers()
         case "4":
@@ -47,15 +48,15 @@ def editSuppliers():
 
 def editProducts():
     productTransaction = input("Products:" + "\n" +
-                          "1. Select" + "\n" +
-                          "2. Insert" + "\n" +
+                          "1. Insert" + "\n" +
+                          "2. Select" + "\n" +
                           "3. Update" + "\n" +
                           "4. Delete" + "\n")
     match productTransaction:
         case "1":
-            prod.SelectProducts()
-        case "2":
             prod.InsertProducts()
+        case "2":
+            prod.SelectProducts()
         case "3":
             prod.UpdateProducts()
         case "4":
@@ -63,15 +64,15 @@ def editProducts():
 
 def editCustomers():
     customerTransaction = input("Customers:" + "\n" +
-                          "1. Select" + "\n" +
-                          "2. Insert" + "\n" +
+                          "1. Insert" + "\n" +
+                          "2. Select" + "\n" +
                           "3. Update" + "\n" +
                           "4. Delete" + "\n")
     match customerTransaction:
         case "1":
-            cust.SelectCustomers()
-        case "2":
             cust.InsertCustomers()
+        case "2":
+            cust.SelectCustomers()
         case "3":
             cust.UpdateCustomers()
         case "4":
@@ -143,8 +144,6 @@ while True:
             case "2":
                 createUser()
                 createdaccount = True
-            case "3":
-                pd.testPandas()
 
 
 
