@@ -1,5 +1,7 @@
+## CHECKED IT
 import pyodbc
 import pandas as pd
+import re
 import suppliers as supp
 import customers as cust
 import products as prod
@@ -36,15 +38,34 @@ def editSuppliers():
                           "2. Select" + "\n" +
                           "3. Update" + "\n" +
                           "4. Delete" + "\n")
+    if re.match(r"^[1-4 ]+$", supplierTransaction):
+        pass
+    elif re.match(r"^[05-9]+$", supplierTransaction):
+        print("Please ensure you select an option that is available.")
+    else:
+        print("Please only enter numbers.")
+
     match supplierTransaction:
         case "1":
-            supp.InsertSuppliers()
+            try:
+                supp.InsertSuppliers()
+            except Exception as e:
+                print(e)
         case "2":
-            supp.SelectSuppliers()
+            try:
+                supp.SelectSuppliers()
+            except Exception as e:
+                print(e)
         case "3":
-            supp.UpdateSuppliers()
+            try:
+                supp.UpdateSuppliers()
+            except Exception as e:
+                print(e)
         case "4":
-            supp.DeleteSuppliers()
+            try:
+                supp.DeleteSuppliers()
+            except Exception as e:
+                print(e)
 
 def editProducts():
     productTransaction = input("Products:" + "\n" +
@@ -52,15 +73,34 @@ def editProducts():
                           "2. Select" + "\n" +
                           "3. Update" + "\n" +
                           "4. Delete" + "\n")
+    if re.match(r"^[1-4 ]+$", productTransaction):
+        pass
+    elif re.match(r"^[05-9]+$", productTransaction):
+        print("Please ensure you select an option that is available.")
+    else:
+        print("Please only enter numbers.")
+
     match productTransaction:
         case "1":
-            prod.InsertProducts()
+            try:
+                prod.InsertProducts()
+            except Exception as e:
+                print(e)
         case "2":
-            prod.SelectProducts()
+            try:
+                prod.SelectProducts()
+            except Exception as e:
+                print(e)
         case "3":
-            prod.UpdateProducts()
+            try:
+                prod.UpdateProducts()
+            except Exception as e:
+                print(e)
         case "4":
-            prod.DeleteProducts()
+            try:
+                prod.DeleteProducts()
+            except Exception as e:
+                print(e)
 
 def editCustomers():
     customerTransaction = input("Customers:" + "\n" +
@@ -68,34 +108,72 @@ def editCustomers():
                           "2. Select" + "\n" +
                           "3. Update" + "\n" +
                           "4. Delete" + "\n")
+    if re.match(r"^[1-4 ]+$", customerTransaction):
+        pass
+    elif re.match(r"^[05-9]+$", customerTransaction):
+        print("Please ensure you select an option that is available.")
+    else:
+        print("Please only enter numbers.")
+
     match customerTransaction:
         case "1":
-            cust.InsertCustomers()
+            try:
+                cust.InsertCustomers()
+            except Exception as e:
+                print(e)
+
         case "2":
-            cust.SelectCustomers()
+            try:
+                cust.SelectCustomers()
+            except Exception as e:
+                print(e)
+
         case "3":
-            cust.UpdateCustomers()
+            try:
+                cust.UpdateCustomers()
+            except Exception as e:
+                print(e)
         case "4":
-            cust.DeleteCustomers()
+            try:
+                cust.DeleteCustomers()
+            except Exception as e:
+                print(e)
 
 
 def createUser():
-    username = input("What will your username be?" + "\n")
-    password = input("What will your password be?" + "\n")
-
-    passwordHash = ph.hash(password)
-
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
+    try:
+        username = input("What will your username be?" + "\n")
+        if re.match(r"^[a-zA-Z0-9 ]+$", username):
+            pass
+        else:
+            print("Please only enter letters, numbers or spaces")
+            return
 
-    insertQuery = """ INSERT INTO administrators (username, password) VALUES (?,?) """
+        password = input("What will your password be?" + "\n")
+        if re.match(r"^[a-zA-Z0-9 !@#$%^&*,.]+$", password):
+            pass
+        else:
+            print("Please only enter letters, numbers, spaces, !, @, #, $, %, ^, &, *, , and .")
+            return
 
-    data = (username, passwordHash)
+        passwordHash = ph.hash(password)
 
-    cursor.execute(insertQuery, data)
-    conn.commit()
-    cursor.close()
-    conn.close()
+        conn = pyodbc.connect(connection_string)
+        cursor = conn.cursor()
+
+        insertQuery = """ INSERT INTO administrators (username, password) VALUES (?,?) """
+
+        data = (username, passwordHash)
+
+        cursor.execute(insertQuery, data)
+        conn.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+    finally:
+        conn.close()
     
 def verifyUser():
     global verifieduser
@@ -103,8 +181,18 @@ def verifyUser():
     cursor = conn.cursor()
     try:
         username = input("What is your username?" + "\n")
-        password = input("What is your password?" + "\n")
+        if re.match(r"^[a-zA-Z0-9 ]+$", username):
+            pass
+        else:
+            print("Please only enter letters, numbers or spaces.")
+            return
 
+        password = input("What is your password?" + "\n")
+        if re.match(r"^[a-zA-Z0-9 !@#$%^&*,.]+$", password):
+            pass
+        else:
+            print("Please only enter letters, numbers, spaces, !, @, #, $, %, ^, &, *, , and .")
+            return
         select_query = '''
             SELECT password FROM administrators WHERE username = ?
         '''
@@ -119,11 +207,11 @@ def verifyUser():
                 verifieduser = True
                 
             else:
-                print("password is incorrect")
+                print("The password is incorrect.")
         else:
-            print("username not found")
+            print("The username is incorrect.")
     except Exception as e:
-        print(f"An error occured: {e}")
+        print(e)
     finally:
         cursor.close()
 
@@ -133,17 +221,30 @@ while True:
         break
     else:
 
-        loginOrCreateAccount = input("Do you wish to login or create an account?" + "\n" + 
+        uInput = input("Do you wish to login or create an account?" + "\n" + 
                                  "Please select an option by entering the corresponding number:" + "\n" +
                                  "1. Login" + "\n" +
                                  "2. Create Account" + "\n")
+        if re.match(r"^[1-2 ]+$", uInput):
+            pass
+        elif re.match(r"^[03-9]+$", uInput):
+            print("Please ensure you select an option that is available.")
+        else:
+            print("Please only enter numbers.")
 
-        match loginOrCreateAccount:
+
+        match uInput:
             case "1":
-                verifyUser()
+                try:
+                    verifyUser()
+                except Exception as e:
+                    print(e)
             case "2":
-                createUser()
-                createdaccount = True
+                try:
+                    createUser()
+                    createdaccount = True
+                except Exception as e:
+                    print(e)
 
 
 
@@ -154,6 +255,15 @@ while True:
                        "1. Edit Products" + "\n" +
                        "2. Edit Suppliers" + "\n" +
                        "3. Edit Customers" + "\n")
+    if re.match(r"^[1-3 ]+$", uInput):
+        pass
+    elif re.match(r"^[04-9]+$", uInput):
+        print("Please ensure you select an option that is available.")
+        pass
+    else:
+        print("Please only enter numbers.")
+        pass
+
     match uInput:
         case "1":
             editProducts()
@@ -161,6 +271,7 @@ while True:
             editSuppliers()
         case "3":
             editCustomers()
+        
 
 
 
