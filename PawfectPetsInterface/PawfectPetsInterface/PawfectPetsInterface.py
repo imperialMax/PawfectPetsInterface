@@ -28,8 +28,12 @@ connection_string = (
 # )
 pd.set_option('display.expand_frame_repr', False)
 global verifieduser 
+global adminUser
+global basicUser
 
 verifieduser = False
+adminUser = False
+basicUser = True
 
 
 def editSuppliers():
@@ -163,6 +167,41 @@ def createUser():
         conn = pyodbc.connect(connection_string)
         cursor = conn.cursor()
 
+        insertQuery = """ INSERT INTO users (username, password) VALUES (?,?) """
+
+        data = (username, passwordHash)
+
+        cursor.execute(insertQuery, data)
+        conn.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+    finally:
+        conn.close()
+
+def createAdministrator():
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+    try:
+        username = input("What will your username be?" + "\n")
+        if re.match(r"^[a-zA-Z0-9 ]+$", username):
+            pass
+        else:
+            print("Please only enter letters, numbers or spaces")
+            return
+
+        password = input("What will your password be?" + "\n")
+        if re.match(r"^[a-zA-Z0-9 !@#$%^&*,.]+$", password):
+            pass
+        else:
+            print("Please only enter letters, numbers, spaces, !, @, #, $, %, ^, &, *, , and .")
+            return
+
+        passwordHash = ph.hash(password)
+
+        conn = pyodbc.connect(connection_string)
+        cursor = conn.cursor()
+
         insertQuery = """ INSERT INTO administrators (username, password) VALUES (?,?) """
 
         data = (username, passwordHash)
@@ -174,9 +213,11 @@ def createUser():
         print(e)
     finally:
         conn.close()
+
     
 def verifyUser():
     global verifieduser
+    global adminUser
     conn = pyodbc.connect(connection_string)
     cursor = conn.cursor()
     try:
@@ -194,7 +235,7 @@ def verifyUser():
             print("Please only enter letters, numbers, spaces, !, @, #, $, %, ^, &, *, , and .")
             return
         select_query = '''
-            SELECT password FROM administrators WHERE username = ?
+            SELECT password FROM users WHERE username = ?
         '''
 
         cursor.execute(select_query, (username,))
@@ -203,13 +244,28 @@ def verifyUser():
         if result:
             password_hash = result[0]
             if ph.verify(password_hash, password):
-                
                 verifieduser = True
+                print("passed as user")
                 
             else:
                 print("The password is incorrect.")
+
         else:
-            print("The username is incorrect.")
+                select_query = '''
+                    SELECT password FROM administrators WHERE username = ?
+                '''
+                cursor.execute(select_query, (username,))
+                result = cursor.fetchone()
+                password_hash = result[0]
+                if result:
+                    if ph.verify(password_hash, password):
+                        verifieduser = True
+                        adminUser = True
+                        print("passed as admin")
+                    else:
+                        print("The password is incorrect.")
+                else:
+                    print("The username is incorrect.")
     except Exception as e:
         print(e)
     finally:
@@ -247,31 +303,67 @@ while True:
                     print(e)
 
 
+if adminUser == True:
+    print("found admin")
+    while True:
 
-while True:
+        uInput = input("Welcome to the Pawfect Pets database" + "\n" +
+                           "Please select an option by entering the corresponding number" + "\n" + 
+                           "1. Edit Products" + "\n" +
+                           "2. Edit Suppliers" + "\n" +
+                           "3. Edit Customers" + "\n" +
+                           "4. Add Administrator" + "\n")
+        if re.match(r"^[1-3 ]+$", uInput):
+            pass
+        elif re.match(r"^[05-9]+$", uInput):
+            print("Please ensure you select an option that is available.")
+            pass
+        else:
+            print("Please only enter numbers.")
+            pass
 
-    uInput = input("Welcome to the Pawfect Pets database" + "\n" +
-                       "Please select an option by entering the corresponding number" + "\n" + 
-                       "1. Edit Products" + "\n" +
-                       "2. Edit Suppliers" + "\n" +
-                       "3. Edit Customers" + "\n")
-    if re.match(r"^[1-3 ]+$", uInput):
-        pass
-    elif re.match(r"^[04-9]+$", uInput):
-        print("Please ensure you select an option that is available.")
-        pass
-    else:
-        print("Please only enter numbers.")
-        pass
+        match uInput:
+            case "1":
+                editProducts()
+            case "2":
+                editSuppliers()
+            case "3":
+                editCustomers()
+            case "4":
+                createAdministrator()
 
-    match uInput:
-        case "1":
-            editProducts()
-        case "2":
-            editSuppliers()
-        case "3":
-            editCustomers()
-        
+elif basicUser == True:
+        print("found user")
+        while True:
+
+            uInput = input("Welcome to the Pawfect Pets database" + "\n" +
+                               "Please select an option by entering the corresponding number" + "\n" + 
+                               "1. View Products" + "\n" +
+                               "2. View Suppliers" + "\n" +
+                               "3. View Customers" + "\n"
+                               "4. Add User" + "\n")
+            if re.match(r"^[1-4 ]+$", uInput):
+                pass
+            elif re.match(r"^[05-9]+$", uInput):
+                print("Please ensure you select an option that is available.")
+                pass
+            else:
+                print("Please only enter numbers.")
+                pass
+
+            match uInput:
+                case "1":
+                    prod.SelectProducts()
+                case "2":
+                    supp.SelectSuppliers()
+                case "3":
+                    cust.SelectCustomers()
+                case "4":
+                    createUser()
+
+else:
+    print("how did you get in")
+
 
 
 
