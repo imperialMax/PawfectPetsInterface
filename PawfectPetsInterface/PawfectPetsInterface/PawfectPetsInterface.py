@@ -245,7 +245,7 @@ def verifyUser():
             password_hash = result[0]
             if ph.verify(password_hash, password):
                 verifieduser = True
-                print("passed as user")
+
                 
             else:
                 print("The password is incorrect.")
@@ -261,7 +261,7 @@ def verifyUser():
                     if ph.verify(password_hash, password):
                         verifieduser = True
                         adminUser = True
-                        print("passed as admin")
+
                     else:
                         print("The password is incorrect.")
                 else:
@@ -304,7 +304,7 @@ while True:
 
 
 if adminUser == True:
-    print("found admin")
+
     while True:
 
         uInput = input("Welcome to the Pawfect Pets database" + "\n" +
@@ -333,7 +333,7 @@ if adminUser == True:
                 createAdministrator()
 
 elif basicUser == True:
-        print("found user")
+
         while True:
 
             uInput = input("Welcome to the Pawfect Pets database" + "\n" +
