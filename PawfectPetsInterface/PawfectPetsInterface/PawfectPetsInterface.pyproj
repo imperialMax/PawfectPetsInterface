@@ -11,6 +11,7 @@
     <OutputPath>.</OutputPath>
     <Name>PawfectPetsInterface</Name>
     <RootNamespace>PawfectPetsInterface</RootNamespace>
+    <InterpreterId>MSBuild|primary|$(MSBuildProjectFullPath)</InterpreterId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +27,21 @@
     <Compile Include="products.py" />
     <Compile Include="suppliers.py" />
     <Compile Include="testingPandas.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gitignore.gitignore" />
+    <Content Include="secret.env" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="primary\">
+      <Id>primary</Id>
+      <Version>0.0</Version>
+      <Description>primary (Python 3.12 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

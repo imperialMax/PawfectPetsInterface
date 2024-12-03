@@ -94,3 +94,10 @@ def testRegEx():
 
     # for match in matches:
     #     print(match)
+
+def testEnv():
+    try:
+       
+        print("python-dotenv is installed successfully!")
+    except ImportError:
+        print("python-dotenv is not installed.")

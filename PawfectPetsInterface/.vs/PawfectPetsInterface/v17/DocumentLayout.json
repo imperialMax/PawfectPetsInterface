@@ -5,6 +5,18 @@
     {
       "AbsoluteMoniker": "D:0:0:{2A73F10E-6592-4DF4-AD43-AC0D157366E9}|PawfectPetsInterface\\PawfectPetsInterface.pyproj|C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{2A73F10E-6592-4DF4-AD43-AC0D157366E9}|PawfectPetsInterface\\PawfectPetsInterface.pyproj|solutionrelative:PawfectPetsInterface\\PawfectPetsInterface.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A73F10E-6592-4DF4-AD43-AC0D157366E9}|PawfectPetsInterface\\PawfectPetsInterface.pyproj|C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\secret.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2A73F10E-6592-4DF4-AD43-AC0D157366E9}|PawfectPetsInterface\\PawfectPetsInterface.pyproj|solutionrelative:PawfectPetsInterface\\secret.env||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A73F10E-6592-4DF4-AD43-AC0D157366E9}|PawfectPetsInterface\\PawfectPetsInterface.pyproj|C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\testingPandas.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2A73F10E-6592-4DF4-AD43-AC0D157366E9}|PawfectPetsInterface\\PawfectPetsInterface.pyproj|solutionrelative:PawfectPetsInterface\\testingPandas.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A73F10E-6592-4DF4-AD43-AC0D157366E9}|PawfectPetsInterface\\PawfectPetsInterface.pyproj|C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\gitignore.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{2A73F10E-6592-4DF4-AD43-AC0D157366E9}|PawfectPetsInterface\\PawfectPetsInterface.pyproj|solutionrelative:PawfectPetsInterface\\gitignore.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,13 +38,49 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "testingPandas.py",
+              "DocumentMoniker": "C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\testingPandas.py",
+              "RelativeDocumentMoniker": "PawfectPetsInterface\\testingPandas.py",
+              "ToolTip": "C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\testingPandas.py",
+              "RelativeToolTip": "PawfectPetsInterface\\testingPandas.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-12-02T21:24:55.247Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "gitignore.gitignore",
+              "DocumentMoniker": "C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\gitignore.gitignore",
+              "RelativeDocumentMoniker": "PawfectPetsInterface\\gitignore.gitignore",
+              "ToolTip": "C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\gitignore.gitignore",
+              "RelativeToolTip": "PawfectPetsInterface\\gitignore.gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-02T03:19:01.747Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "secret.env",
+              "DocumentMoniker": "C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\secret.env",
+              "RelativeDocumentMoniker": "PawfectPetsInterface\\secret.env",
+              "ToolTip": "C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\secret.env",
+              "RelativeToolTip": "PawfectPetsInterface\\secret.env",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-02T03:16:54.478Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "PawfectPetsInterface.py",
               "DocumentMoniker": "C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface.py",
               "RelativeDocumentMoniker": "PawfectPetsInterface\\PawfectPetsInterface.py",
               "ToolTip": "C:\\Users\\0249m\\Documents\\GitHub\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface\\PawfectPetsInterface.py",
               "RelativeToolTip": "PawfectPetsInterface\\PawfectPetsInterface.py",
-              "ViewState": "AgIAAPIAAAAAAAAAAAAiwP0AAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAkAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2024-11-25T04:56:59.502Z",
               "EditorCaption": ""
