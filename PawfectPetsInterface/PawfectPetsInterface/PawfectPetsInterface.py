@@ -16,24 +16,24 @@ UID = os.getenv('USER_ID')
 print(UID)
 PWD = os.getenv('PASS_WORD')
 
-# connection_string = (
-#     r"Driver={ODBC Driver 17 for SQL Server};"
-#     r"Server=LAPTOP-E8GVKM9S\SQLEXPRESS;"
-#     r"Database=ElysiumLuxuryDB;"
-#     r"Trusted_Connection=yes;"
-#     r"Column Encryption Setting=Enabled;"
-    
-# )
-
 connection_string = (
     r"Driver={ODBC Driver 17 for SQL Server};"
-    r"Server=10.221.64.20\SQLEXPRESS;"
-    r"Database=PawfectPetsDB;"
-    f"UID={UID};"
-    f"PWD={PWD};"
+    r"Server=LAPTOP-E8GVKM9S\SQLEXPRESS;"
+    r"Database=ElysiumLuxuryDB;"
+    r"Trusted_Connection=yes;"
     r"Column Encryption Setting=Enabled;"
     
 )
+
+# connection_string = (
+#     r"Driver={ODBC Driver 17 for SQL Server};"
+#     r"Server=10.221.64.20\SQLEXPRESS;"
+#     r"Database=PawfectPetsDB;"
+#     f"UID={UID};"
+#     f"PWD={PWD};"
+#     r"Column Encryption Setting=Enabled;"
+    
+# )
 pd.set_option('display.expand_frame_repr', False)
 global verifieduser 
 global adminUser
@@ -365,7 +365,7 @@ elif basicUser == True:
                 case "2":
                     supp.SelectSuppliers()
                 case "3":
-                    cust.SelectCustomers()
+                    cust.SecureSelectCustomers()
                 case "4":
                     createUser()
 

@@ -560,3 +560,139 @@ def DeleteCustomers():
         print(e)
     finally:
         conn.close()
+
+def SecureSelectCustomers():
+    
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+    try:
+
+        uInput = input("Would you like to view the entire table or just one row?" + "\n" + "Select an option by entering the corresponding number:"
+                       + "\n" + "1. Entire table" + "\n" + "2. One row" + "\n")
+        if re.match(r"^[1-2 ]+$", uInput):
+            pass
+        elif re.match(r"^[03-9]+$", uInput):
+            print("Please ensure you select an option that is available.")
+            return
+        else:
+            print("Please only enter numbers.")
+            return
+
+        match uInput:
+            case "1":
+                print("Here are the results of your search:" + "\n")
+
+                select_Query =    """SELECT customer_ID FROM customers"""            
+
+                cursor.execute(select_Query)
+                customer_ID = cursor.fetchall()
+
+
+                select_Query =    """SELECT first_name FROM customers"""            
+
+                cursor.execute(select_Query)
+                first_name = cursor.fetchall()
+
+                select_Query =    """SELECT last_name FROM customers"""            
+
+                cursor.execute(select_Query)
+                last_name = cursor.fetchall()
+
+                select_Query =    """SELECT email FROM customers"""            
+
+                cursor.execute(select_Query)
+                email = cursor.fetchall()
+
+
+
+
+                data = {
+                    "customer_ID": customer_ID,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "email": email
+
+        
+                    }
+
+                df = pd.DataFrame(data)
+                print(df)
+
+                cursor.close()
+
+            case "2":
+                uInput = input("Which row would you like to view?" + "\n" + "Select an option by entering the corresponding number:"
+                       + "\n" + "1. first_name" 
+                       + "\n" + "2. last_name" 
+                       + "\n" + "3. email"
+                       + "\n")
+                if re.match(r"^[1-3 ]+$", uInput):
+                    pass
+                elif re.match(r"^[04-9]+$", uInput):
+                    print("Please ensure you select an option that is available.")
+                    return
+                else:
+                    print("Please only enter numbers.")
+                    return
+
+                match uInput:
+                    case "1":
+
+                        select_Query =    """SELECT first_name FROM customers"""            
+
+                        cursor.execute(select_Query)
+                        first_name = cursor.fetchall()
+
+
+                        data = {
+                            "first_name": first_name,
+
+                            }
+
+                        df = pd.DataFrame(data)
+                        print(df)
+
+                        cursor.close()
+
+                    case "2":
+
+                        select_Query =    """SELECT last_name FROM customers"""            
+
+                        cursor.execute(select_Query)
+                        last_name = cursor.fetchall()
+
+
+                        data = {
+                            "last_name": last_name,
+
+                            }
+
+                        df = pd.DataFrame(data)
+                        print(df)
+
+                        cursor.close()
+
+                    case "3":
+                        conn = pyodbc.connect(connection_string)
+                        cursor = conn.cursor()
+
+                        select_Query =    """SELECT email FROM customers"""            
+
+                        cursor.execute(select_Query)
+                        email = cursor.fetchall()
+
+
+                        data = {
+                            "email": email,
+
+                            }
+
+                        df = pd.DataFrame(data)
+                        print(df)
+
+                        cursor.close()
+
+    except Exception as e:
+        print(e)
+    finally:
+        conn.close()
