@@ -3,14 +3,7 @@ import re
 import pandas as pd
 from argon2 import PasswordHasher
 ph = PasswordHasher()
-connection_string = (
-    r"Driver={ODBC Driver 17 for SQL Server};"
-    r"Server=LAPTOP-E8GVKM9S\SQLEXPRESS;"
-    r"Database=ElysiumLuxuryDB;"
-    r"Trusted_Connection=yes;"
-    r"Column Encryption Setting=Enabled;"
-    
-)
+
 
 def testPandas():
     conn = pyodbc.connect(connection_string)
@@ -95,9 +88,3 @@ def testRegEx():
     # for match in matches:
     #     print(match)
 
-def testEnv():
-    try:
-       
-        print("python-dotenv is installed successfully!")
-    except ImportError:
-        print("python-dotenv is not installed.")

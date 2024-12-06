@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="connectionString.py" />
     <Compile Include="customers.py" />
     <Compile Include="PawfectPetsInterface.py" />
     <Compile Include="products.py" />
@@ -30,7 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gitignore.gitignore" />
-    <Content Include="secret.env" />
+    <Content Include=".env" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="primary\">

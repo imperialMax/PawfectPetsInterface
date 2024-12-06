@@ -6,34 +6,14 @@ import os
 import suppliers as supp
 import customers as cust
 import products as prod
+import connectionString as connstring
 import testingPandas as tpd
-from dotenv import load_dotenv
 from argon2 import PasswordHasher
 ph = PasswordHasher()
-# load_dotenv()
 
-UID = os.getenv('USER_ID')
-print(UID)
-PWD = os.getenv('PASS_WORD')
+connection_string = connstring.returnConnectionString()
 
-connection_string = (
-    r"Driver={ODBC Driver 17 for SQL Server};"
-    r"Server=LAPTOP-E8GVKM9S\SQLEXPRESS;"
-    r"Database=ElysiumLuxuryDB;"
-    r"Trusted_Connection=yes;"
-    r"Column Encryption Setting=Enabled;"
-    
-)
 
-# connection_string = (
-#     r"Driver={ODBC Driver 17 for SQL Server};"
-#     r"Server=10.221.64.20\SQLEXPRESS;"
-#     r"Database=PawfectPetsDB;"
-#     f"UID={UID};"
-#     f"PWD={PWD};"
-#     r"Column Encryption Setting=Enabled;"
-    
-# )
 pd.set_option('display.expand_frame_repr', False)
 global verifieduser 
 global adminUser
@@ -175,7 +155,7 @@ def createUser():
         conn = pyodbc.connect(connection_string)
         cursor = conn.cursor()
 
-        insertQuery = """ INSERT INTO users (username, password) VALUES (?,?) """
+        insertQuery = """ INSERT INTO administrators (username, password) VALUES (?,?) """
 
         data = (username, passwordHash)
 
@@ -284,7 +264,6 @@ while True:
     if verifieduser == True:
         break
     else:
-        tpd.testEnv()
         uInput = input("Do you wish to login or create an account?" + "\n" + 
                                  "Please select an option by entering the corresponding number:" + "\n" +
                                  "1. Login" + "\n" +

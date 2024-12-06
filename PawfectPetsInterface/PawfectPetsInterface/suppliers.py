@@ -4,15 +4,10 @@ import pandas as pd
 import re
 from argon2 import PasswordHasher
 ph = PasswordHasher()
-connection_string = (
-    r"Driver={ODBC Driver 17 for SQL Server};"
-    r"Server=LAPTOP-E8GVKM9S\SQLEXPRESS;"
-    r"Database=ElysiumLuxuryDB;"
-    r"Trusted_Connection=yes;"
-    r"Column Encryption Setting=Enabled;"
-    
-)
+import connectionString as connstring
 pd.set_option('display.expand_frame_repr', False)
+
+connection_string = connstring.returnConnectionString()
 
 def InsertSuppliers():
     conn = pyodbc.connect(connection_string)
