@@ -155,7 +155,7 @@ def createUser():
         conn = pyodbc.connect(connection_string)
         cursor = conn.cursor()
 
-        insertQuery = """ INSERT INTO administrators (username, password) VALUES (?,?) """
+        insertQuery = """ INSERT INTO users (username, password) VALUES (?,?) """
 
         data = (username, passwordHash)
 
